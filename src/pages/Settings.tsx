@@ -21,6 +21,8 @@ import {
   Palette,
   Globe,
   Database,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
@@ -153,7 +155,6 @@ const Settings = () => {
                                   <Moon className="h-[1.2rem] w-[1.2rem]" />
                                 </ToggleGroupItem>
                               </ToggleGroup>
-                              <ThemeToggle />
                             </div>
                           </div>
                         </div>
