@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import { 
   Card, 
@@ -22,7 +21,6 @@ import {
   Palette,
   Globe,
   Database,
-  Contrast
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
@@ -30,7 +28,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTheme } from '@/components/theme/theme-provider';
-import { Slider } from '@/components/ui/slider';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Settings = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -44,6 +42,13 @@ const Settings = () => {
     contentDensity, 
     setContentDensity 
   } = useTheme();
+  
+  useEffect(() => {
+    console.log("Theme:", theme);
+    console.log("Animations:", animations);
+    console.log("High Contrast:", highContrast);
+    console.log("Content Density:", contentDensity);
+  }, [theme, animations, highContrast, contentDensity]);
   
   const toggleSidebar = () => {
     setSidebarCollapsed(prev => !prev);
@@ -68,7 +73,6 @@ const Settings = () => {
         <main className="p-6">
           <Tabs defaultValue="appearance" className="w-full">
             <div className="flex flex-col md:flex-row gap-6">
-              {/* Sidebar menu */}
               <Card className="md:w-64 flex-shrink-0">
                 <CardContent className="p-0">
                   <TabsList className="flex flex-col h-auto bg-transparent w-full p-0">
@@ -118,7 +122,6 @@ const Settings = () => {
                 </CardContent>
               </Card>
               
-              {/* Content area */}
               <div className="flex-1">
                 <TabsContent value="appearance" className="mt-0">
                   <Card>
@@ -139,7 +142,19 @@ const Settings = () => {
                                 Elige entre modo claro, oscuro o sincronizado con tu sistema.
                               </p>
                             </div>
-                            <ThemeToggle />
+                            <div className="flex items-center space-x-2">
+                              <ToggleGroup type="single" value={theme} onValueChange={(value) => {
+                                if (value) setTheme(value as "light" | "dark" | "system");
+                              }}>
+                                <ToggleGroupItem value="light" aria-label="Light mode">
+                                  <Sun className="h-[1.2rem] w-[1.2rem]" />
+                                </ToggleGroupItem>
+                                <ToggleGroupItem value="dark" aria-label="Dark mode">
+                                  <Moon className="h-[1.2rem] w-[1.2rem]" />
+                                </ToggleGroupItem>
+                              </ToggleGroup>
+                              <ThemeToggle />
+                            </div>
                           </div>
                         </div>
                         
@@ -152,7 +167,11 @@ const Settings = () => {
                           </div>
                           <Switch 
                             checked={animations} 
-                            onCheckedChange={setAnimations} 
+                            onCheckedChange={(checked) => {
+                              console.log("Setting animations to:", checked);
+                              setAnimations(checked);
+                            }} 
+                            id="animations-switch"
                           />
                         </div>
                         
@@ -165,7 +184,11 @@ const Settings = () => {
                           </div>
                           <Switch 
                             checked={highContrast} 
-                            onCheckedChange={setHighContrast} 
+                            onCheckedChange={(checked) => {
+                              console.log("Setting high contrast to:", checked);
+                              setHighContrast(checked);
+                            }}
+                            id="contrast-switch"
                           />
                         </div>
                         
@@ -173,7 +196,10 @@ const Settings = () => {
                           <Label htmlFor="density">Densidad de contenido</Label>
                           <Select 
                             value={contentDensity} 
-                            onValueChange={(value) => setContentDensity(value as "compact" | "comfortable" | "spacious")}
+                            onValueChange={(value) => {
+                              console.log("Setting content density to:", value);
+                              setContentDensity(value as "compact" | "comfortable" | "spacious");
+                            }}
                           >
                             <SelectTrigger id="density" className="w-full md:w-52">
                               <SelectValue placeholder="Selecciona la densidad" />

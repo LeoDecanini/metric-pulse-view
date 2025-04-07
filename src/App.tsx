@@ -18,10 +18,16 @@ const queryClient = new QueryClient();
 
 // Get the saved theme preference or use 'dark' as default
 const savedTheme = localStorage.getItem("metric-pulse-theme") || "dark";
+const savedAnimations = localStorage.getItem("animations") !== "false";
+const savedHighContrast = localStorage.getItem("highContrast") === "true";
+const savedContentDensity = localStorage.getItem("contentDensity") || "compact";
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme={savedTheme as "dark" | "light" | "system"} storageKey="metric-pulse-theme">
+    <ThemeProvider 
+      defaultTheme={savedTheme as "dark" | "light" | "system"} 
+      storageKey="metric-pulse-theme"
+    >
       <TooltipProvider>
         <Toaster />
         <Sonner />
