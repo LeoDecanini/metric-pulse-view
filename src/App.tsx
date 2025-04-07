@@ -16,9 +16,12 @@ import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
+// Get the saved theme preference or use 'dark' as default
+const savedTheme = localStorage.getItem("metric-pulse-theme") || "dark";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="dark" storageKey="metric-pulse-theme">
+    <ThemeProvider defaultTheme={savedTheme as "dark" | "light" | "system"} storageKey="metric-pulse-theme">
       <TooltipProvider>
         <Toaster />
         <Sonner />

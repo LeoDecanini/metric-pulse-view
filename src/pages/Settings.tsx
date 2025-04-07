@@ -21,16 +21,29 @@ import {
   Lock, 
   Palette,
   Globe,
-  Database
+  Database,
+  Contrast
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useTheme } from '@/components/theme/theme-provider';
+import { Slider } from '@/components/ui/slider';
 
 const Settings = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { 
+    theme, 
+    setTheme, 
+    animations, 
+    setAnimations, 
+    highContrast, 
+    setHighContrast, 
+    contentDensity, 
+    setContentDensity 
+  } = useTheme();
   
   const toggleSidebar = () => {
     setSidebarCollapsed(prev => !prev);
@@ -137,7 +150,10 @@ const Settings = () => {
                               Habilitar animaciones de interfaz.
                             </p>
                           </div>
-                          <Switch defaultChecked />
+                          <Switch 
+                            checked={animations} 
+                            onCheckedChange={setAnimations} 
+                          />
                         </div>
                         
                         <div className="flex items-center justify-between border-t pt-4">
@@ -147,12 +163,18 @@ const Settings = () => {
                               Mejora la legibilidad con mayor contraste.
                             </p>
                           </div>
-                          <Switch />
+                          <Switch 
+                            checked={highContrast} 
+                            onCheckedChange={setHighContrast} 
+                          />
                         </div>
                         
                         <div className="border-t pt-4 space-y-2">
                           <Label htmlFor="density">Densidad de contenido</Label>
-                          <Select defaultValue="compact">
+                          <Select 
+                            value={contentDensity} 
+                            onValueChange={(value) => setContentDensity(value as "compact" | "comfortable" | "spacious")}
+                          >
                             <SelectTrigger id="density" className="w-full md:w-52">
                               <SelectValue placeholder="Selecciona la densidad" />
                             </SelectTrigger>
