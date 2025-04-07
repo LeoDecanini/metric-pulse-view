@@ -15,6 +15,7 @@ interface MetricCardProps {
   valueSuffix?: string;
   className?: string;
   loading?: boolean;
+  children?: React.ReactNode;
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({ 
@@ -27,7 +28,8 @@ const MetricCard: React.FC<MetricCardProps> = ({
   valuePrefix,
   valueSuffix,
   className,
-  loading = false
+  loading = false,
+  children
 }) => {
   const getVariantClasses = () => {
     switch (variant) {
@@ -114,6 +116,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
             )}
           </div>
         )}
+        {children}
       </CardContent>
     </Card>
   );
