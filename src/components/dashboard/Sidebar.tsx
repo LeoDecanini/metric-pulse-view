@@ -73,7 +73,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       <div className="p-4 border-t border-sidebar-border">
         <Link
           to="/dashboard/settings"
-          className="flex items-center gap-3 px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+          className={cn(
+            "flex items-center gap-3 px-3 py-2 rounded-md transition-colors",
+            location.pathname === "/dashboard/settings" 
+            ? "bg-sidebar-primary text-sidebar-primary-foreground" 
+            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          )}
         >
           <Settings size={20} />
           {!collapsed && <span>Configuración</span>}
